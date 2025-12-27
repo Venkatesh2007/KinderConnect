@@ -41,19 +41,29 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const addNote = (studentId, teluguText, englishSummary) => {
+  const addNote = (studentId, teluguText, englishSummary, phoneNumber) => {
     const newNote = {
       id: Date.now().toString(),
       studentId,
       teluguText,
       englishSummary,
+      phoneNumber,
       date: new Date().toLocaleDateString(), // Store as string for simple grouping
       timestamp: Date.now()
     };
     setNotes(prev => [newNote, ...prev]);
   };
 
-  const getStudent = (id) => students.find(s => s.studentId === id);
+  const getStudent = (id) => students.find(s => String(s.studentId) === String(id));
+
+  const getStudentByStudentAndPhone = (studentId, phoneNumber) => {
+    return students.find(
+      s =>
+        String(s.studentId) === String(studentId) &&
+        String(s.phoneNumber) === String(phoneNumber)
+    );
+  };
+
 
   const getNotesForStudent = (studentId) => {
     return notes.filter(n => n.studentId === studentId).sort((a, b) => b.timestamp - a.timestamp);
@@ -72,6 +82,7 @@ export const AppProvider = ({ children }) => {
       addNote,
       getStudent,
       getNotesForStudent,
+      getStudentByStudentAndPhone,
       getNotesByDate
     }}>
       {children}

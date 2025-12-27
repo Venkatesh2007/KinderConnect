@@ -33,7 +33,7 @@ const Reports = () => {
   }, [notes]);
 
   const getStudentName = (id) => {
-    const s = students.find(st => st.studentId === id);
+    const s = students.find(st => String(st.studentId) === String(id));
     return s ? s.studentName : 'Unknown Student';
   };
 
@@ -50,7 +50,7 @@ const Reports = () => {
     const doc = new jsPDF();
     doc.setFontSize(16);
     doc.text(`Daily Report - ${date}`, 10, 10);
-    
+
     let y = 30;
     doc.setFontSize(12);
     notes.forEach(n => {
@@ -75,7 +75,7 @@ const Reports = () => {
 
   // Placeholder for update logic if we can't change AppContext easily right now.
   // Ideally, I should update AppContext. Let's assume I will add updateNote to AppContext next.
-  
+
   return (
     <div>
       <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Daily Reports</h1>

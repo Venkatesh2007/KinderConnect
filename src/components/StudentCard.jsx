@@ -1,35 +1,38 @@
 import React from 'react';
-import { Phone, User, Users } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Phone, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const StudentCard = ({ student }) => {
-    return (
-        <div className="card">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div>
-                    <h2 style={{ margin: '0 0 10px 0', fontSize: '1.5rem' }}>
-                        <User size={24} style={{ marginRight: '10px' }} />
-                        {student.studentName}
-                    </h2>
-                    <p style={{ margin: '5px 0', fontSize: '1.1rem' }}>
-                        <strong>Parent:</strong> {student.parentName}
-                    </p>
-                    <p style={{ margin: '5px 0', fontSize: '1.1rem' }}>
-                        <strong>Class:</strong> {student.className}
-                    </p>
-                    <p style={{ margin: '5px 0', fontSize: '1.1rem', color: '#666' }}>
-                        <Phone size={18} style={{ marginRight: '5px', verticalAlign: 'middle' }} />
-                        {student.phoneNumber}
-                    </p>
-                </div>
+  const navigate = useNavigate();
 
-                <Link to={`/call/${student.studentId}`} className="btn-action" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', padding: '15px 25px' }}>
-                    <Phone size={24} />
-                    CALL
-                </Link>
-            </div>
-        </div>
-    );
+  return (
+    <div className="card">
+      <h2 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>
+        <User size={22} style={{ marginRight: '8px' }} />
+        {student.studentName}
+      </h2>
+
+      <p><strong>Parent:</strong> {student.parentName}</p>
+      <p><strong>Class:</strong> {student.className}</p>
+
+      <div style={{ marginTop: '12px' }}>
+        {student.phoneNumbers.map((phone, index) => (
+          <button
+            key={phone}
+            className="btn-action"
+            style={{ width: '100%', marginBottom: '8px' }}
+            onClick={() =>
+              navigate(`/call/${student.studentId}`, {
+                state: { phoneNumber: phone }
+              })
+            }
+          >
+            <Phone size={18} /> Call {index + 1} ({phone})
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default StudentCard;

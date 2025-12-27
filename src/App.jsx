@@ -17,7 +17,8 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<StudentList />} />
               <Route path="upload" element={<StudentUpload />} />
-              <Route path="call/:studentId" element={<CallScreen />} />
+              <Route path="/call/:studentId" 
+              element={<CallScreen />} />
               <Route path="reports" element={<Reports />} />
             </Route>
           </Routes>
