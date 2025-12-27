@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import StudentCard from './StudentCard';
-import { Search, ArrowDownAZ, ArrowUpAZ, Smile } from 'lucide-react';
+import { Search, Smile } from 'lucide-react';
 
 const StudentList = () => {
   const { students } = useApp();
@@ -41,10 +41,9 @@ const StudentList = () => {
     });
   }, [students, searchTerm, sortOrder, selectedClass]);
 
-  // 3️⃣ GROUP by studentId → multiple phone numbers
+  // 3️⃣ GROUP by studentId
   const groupedStudents = useMemo(() => {
     const map = {};
-
     filteredStudents.forEach(s => {
       if (!map[s.studentId]) {
         map[s.studentId] = {
@@ -58,58 +57,130 @@ const StudentList = () => {
         map[s.studentId].phoneNumbers.push(s.phoneNumber);
       }
     });
-
     return Object.values(map);
   }, [filteredStudents]);
 
   return (
-    <div>
-      {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: 20, paddingTop: 10 }}>
-        <h1 style={{ fontSize: '2rem' }}>Kinder Connect</h1>
-        <p style={{ color: '#546E7A' }}>Daily Parent Call Assistant</p>
+    <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 16px' }}>
+      
+      {/* 🌸 Header / Logo Area */}
+      <div style={{
+        textAlign: 'center',
+        padding: '24px 0 16px',
+        marginBottom: 20,
+      }}>
+        {/* Logo placeholder */}
+        <div style={{
+          width: 56,
+          height: 56,
+          borderRadius: '50%',
+          background: '#E8F0FE',
+          margin: '0 auto 12px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '1.5rem',
+          fontWeight: 'bold',
+          color: '#3F51B5'
+        }}>
+          {/* 🌷 */}
+          🙇
+        </div>
+
+        <h1 style={{
+          fontSize: '1.9rem',
+          margin: 0,
+          fontWeight: 600
+        }}>
+          Guru Chandrika
+        </h1>
+
+        <p style={{
+          margin: '6px 0 0',
+          color: '#607D8B',
+          fontSize: '0.95rem'
+        }}>
+          Daily Parent Call Assistant
+        </p>
       </div>
 
-      {/* Search */}
-      <div style={{ position: 'relative', marginBottom: 15 }}>
+      {/* 🔍 Search Bar */}
+      <div style={{ position: 'relative', marginBottom: 18 }}>
+        <Search
+          size={22}
+          style={{
+            position: 'absolute',
+            left: 16,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: '#90A4AE'
+          }}
+        />
         <input
           type="text"
-          placeholder="Search student name..."
-          className="input-large"
+          placeholder="Search student or parent name"
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          style={{ paddingLeft: 50, borderRadius: 24 }}
+          style={{
+            width: '100%',
+            padding: '14px 16px 14px 48px',
+            borderRadius: 28,
+            border: '1px solid #CFD8DC',
+            fontSize: '0.95rem',
+            outline: 'none'
+          }}
         />
-        <Search size={24} style={{ position: 'absolute', left: 15, top: 16 }} />
       </div>
 
-      {/* Filters */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 15 }}>
-        <div className="pill-container">
+      {/* 🎛 Filters */}
+      <div style={{
+        display: 'flex',
+        gap: 12,
+        marginBottom: 20,
+        flexWrap: 'wrap'
+      }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', flex: 1 }}>
           {classes.map(cls => (
             <button
               key={cls}
-              className={`pill ${selectedClass === cls ? 'active' : ''}`}
               onClick={() => setSelectedClass(cls)}
+              style={{
+                padding: '6px 14px',
+                borderRadius: 20,
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                background: selectedClass === cls ? '#3F51B5' : '#ECEFF1',
+                color: selectedClass === cls ? '#fff' : '#455A64'
+              }}
             >
               {cls}
             </button>
           ))}
         </div>
 
-        <select value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
+        <select
+          value={sortOrder}
+          onChange={e => setSortOrder(e.target.value)}
+          style={{
+            padding: '8px 12px',
+            borderRadius: 18,
+            border: '1px solid #CFD8DC',
+            fontSize: '0.85rem'
+          }}
+        >
           <option value="asc">A–Z</option>
           <option value="desc">Z–A</option>
         </select>
       </div>
 
-      {/* List */}
+      {/* 📋 Student List */}
       {students.length === 0 ? (
-        <div style={{ textAlign: 'center', marginTop: 50 }}>
+        <div style={{ textAlign: 'center', marginTop: 60, color: '#90A4AE' }}>
           <p>No students found.</p>
         </div>
       ) : groupedStudents.length === 0 ? (
-        <div style={{ textAlign: 'center', marginTop: 50 }}>
+        <div style={{ textAlign: 'center', marginTop: 60, color: '#90A4AE' }}>
           <Smile size={48} />
           <p>No students match your filters.</p>
         </div>

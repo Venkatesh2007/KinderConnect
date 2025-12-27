@@ -98,9 +98,9 @@ const Reports = () => {
                 <button className="btn-action" style={{ padding: '8px 16px', fontSize: '1rem', minHeight: 'auto' }} onClick={() => handleDownloadPDF(group.date, group.notes)} title="Download PDF">
                   <Download size={18} />
                 </button>
-                <button style={{ backgroundColor: '#25D366', color: 'white', padding: '8px 16px', fontSize: '1rem', minHeight: 'auto', borderRadius: '12px', border: 'none', cursor: 'pointer' }} onClick={() => handleWhatsApp(group.date, group.notes)} title="Share WhatsApp">
+                {/* <button style={{ backgroundColor: '#25D366', color: 'white', padding: '8px 16px', fontSize: '1rem', minHeight: 'auto', borderRadius: '12px', border: 'none', cursor: 'pointer' }} onClick={() => handleWhatsApp(group.date, group.notes)} title="Share WhatsApp">
                   <Share2 size={18} />
-                </button>
+                </button> */}
               </div>
             </div>
 
