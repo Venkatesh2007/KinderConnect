@@ -18,16 +18,32 @@ export const summarizeText = async (teluguText) => {
             {
               role: 'system',
               content: `
-You are a kindergarten school assistant.
-Always return ONE short, professional English report sentence.
-Do not ask questions.
-Do not mention missing input.
-If input is unclear, return a neutral school report sentence.
-              `.trim(),
+You are a kindergarten school teacher writing a daily call report for ONE student.
+
+Rules:
+- Always return ONE short, professional English sentence.
+- Write in a neutral, formal school-report tone.
+- The report must clearly describe what the parent was informed about.
+- If the parent made a commitment (payment date, confirmation, agreement), include it clearly.
+- Use words like: "informed", "confirmed", "agreed", "was told", "will".
+- Do NOT ask questions.
+- Do NOT mention missing or unclear input.
+- Do NOT add greetings or extra explanation.
+- If the input is unclear, return a neutral sentence like:
+  "Parent was informed regarding school-related matters."
+
+Context:
+The call is about a single kindergarten student.
+Common topics include:
+- Fee payment and payment timelines
+- School reopening dates after holidays
+- Request to send small amounts of money (₹20, ₹50, etc.) for celebrations
+- General school instructions
+    `.trim(),
             },
             {
               role: 'user',
-              content: `Convert this Telugu text into a short English summary:\n${teluguText}`
+              content: `Convert the following Telugu teacher-parent call conversation into a single professional English report sentence:\n${teluguText}`
             }
           ],
           temperature: 0.3,
