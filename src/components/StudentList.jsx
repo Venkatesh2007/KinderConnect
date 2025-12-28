@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import StudentCard from './StudentCard';
 import { Search, Smile } from 'lucide-react';
@@ -8,6 +8,16 @@ const StudentList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [selectedClass, setSelectedClass] = useState('All');
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // 1️⃣ Extract unique classes
   const classes = useMemo(() => {
@@ -105,32 +115,37 @@ const StudentList = () => {
       </div>
 
       {/* 🔍 Search Bar */}
-      <div style={{ position: 'relative', marginBottom: 18 }}>
-        <Search
-          size={22}
-          style={{
-            position: 'absolute',
-            left: 16,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            color: '#90A4AE'
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Search student or parent name"
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '14px 16px 14px 48px',
-            borderRadius: 28,
-            border: '1px solid #CFD8DC',
-            fontSize: '0.95rem',
-            outline: 'none'
-          }}
-        />
-      </div>
+<div style={{ position: "relative", marginBottom: 18, width: "100%" }}>
+      <Search
+        size={isMobile ? 18 : 22}
+        style={{
+          position: "absolute",
+          left: isMobile ? 12 : 16,
+          top: "50%",
+          transform: "translateY(-50%)",
+          color: "#90A4AE"
+        }}
+      />
+
+      <input
+        type="text"
+        placeholder="Search student or parent name"
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
+        style={{
+          width: "100%",
+          padding: isMobile
+            ? "12px 14px 12px 40px"
+            : "14px 16px 14px 48px",
+          borderRadius: isMobile ? 22 : 28,
+          border: "1px solid #CFD8DC",
+          fontSize: isMobile ? "0.85rem" : "0.95rem",
+          outline: "none",
+          boxSizing: "border-box"
+        }}
+      />
+    </div>
+
 
       {/* 🎛 Filters */}
       <div style={{
